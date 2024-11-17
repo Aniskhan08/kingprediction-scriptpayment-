@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Price List</title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #00ff00;
+            text-align: center;
+            overflow-x: hidden;
+        }
+        .container {
+            margin: 30px auto;
+            padding: 25px;
+            max-width: 80%;
+            width: calc(600px - 1.5cm);
+            border: 2px solid #00ff00;
+            border-radius: 15px;
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.9), rgba(0, 128, 0, 0.2));
+            box-shadow: 0 0 30px #00ff00, 0 0 60px #00ff00;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px #00ff00, 0 0 80px #00ff00;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 25px;
+            color: #00ff00;
+            text-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00;
+        }
+        .menu-item {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #00ff00;
+            border-radius: 10px;
+            background-color: rgba(16, 16, 16, 0.85);
+            box-shadow: 0 0 15px #00ff00;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+        }
+        .menu-item h2 {
+            font-size: 24px;
+            margin: 0;
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>KING PREDICTION SCRIPT PRICE LIST</h1>
+        <div class="menu-item" onclick="redirectToUPI(700)">
+            <h2>PRIVATE SCRIPT</h2>
+            <p>Price: ₹700</p>
+        </div>
+        <div class="menu-item" onclick="redirectToUPI(500)">
+            <h2>1 LEVEL SCRIPT</h2>
+            <p>Price: ₹500</p>
+        </div>
+        <div class="menu-item" onclick="redirectToUPI(300)">
+            <h2>2 TO 3 LEVEL SCRIPT</h2>
+            <p>Price: ₹300</p>
+        </div>
+        <div class="menu-item" onclick="redirectToUPI(200)">
+            <h2>RANDOM SCRIPT</h2>
+            <p>Price: ₹200</p>
+        </div>
+    </div>
+
+    <script>
+        function redirectToUPI(price) {
+            var upiId = 'lohani@fam';  // Your UPI ID
+            var amount = price;  // Directly use the price passed
+
+            // Make sure the amount is in the correct format (two decimal places)
+            amount = amount.toFixed(2);
+
+            // Create the UPI link with the correct amount
+            var upiLink = `upi://pay?pa=${upiId}&pn=King%20Prediction&mc=0000&tid=1234567890&tn=Payment%20for%20script&am=${amount}&cu=INR`;
+
+            // Notify the backend about the payment
+            notifyPaymentDetails(amount, upiId);
+
+            // Attempt to directly open the UPI app (Google Pay, PhonePe, Paytm, etc.)
+            window.location.href = upiLink;
+
+            // In case UPI link does not work, show a message (for unsupported devices or apps)
+            setTimeout(function() {
+                alert("Please open a UPI-enabled app like Google Pay, PhonePe, Paytm, or others to make the payment.");
+            }, 2000);  // 2 seconds timeout
+        }
+
+        // Notify the backend (server) after payment
+        function notifyPaymentDetails(amount, upiId) {
+            fetch('http://localhost:3000/payment-confirmation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount: amount, upi_id: upiId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Payment notification sent:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
