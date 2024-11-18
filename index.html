@@ -55,6 +55,23 @@
             color: #00ff00;
             text-shadow: 0 0 10px #00ff00;
         }
+        .contact-btn {
+            margin: 20px auto;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #00ff00;
+            border: 2px solid #00ff00;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .contact-btn:hover {
+            background-color: rgba(0, 255, 0, 0.2);
+            box-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+        }
     </style>
 </head>
 <body>
@@ -77,6 +94,9 @@
             <p>Price: ₹200</p>
         </div>
     </div>
+
+    <!-- Contact Button outside the container -->
+    <a class="contact-btn" href="https://t.me/anis_693" target="_blank">Contact</a>
 
     <script>
         function redirectToUPI(price) {
